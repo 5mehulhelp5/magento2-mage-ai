@@ -49,32 +49,41 @@ class ImageGeneration
     protected $helper;
 
     /**
-     * @var ImageStorage
+     * @var ImageStorageInterface
      */
     protected $imageStorage;
+
+    /**
+     * @var string
+     */
+    protected $configGroup;
 
     /**
      * @param Curl $curl
      * @param Json $json
      * @param HelperData $helper
-     * @param ImageStorage $imageStorage
+     * @param ImageStorageInterface $imageStorage
+     * @param string $configGroup Image settings group to read (product by default)
      */
     public function __construct(
         Curl $curl,
         Json $json,
         HelperData $helper,
-        ImageStorage $imageStorage
+        ImageStorageInterface $imageStorage,
+        string $configGroup = HelperData::GROUP_PRODUCT_IMAGE
     ) {
         $this->curl = $curl;
         $this->json = $json;
         $this->helper = $helper;
         $this->imageStorage = $imageStorage;
+        $this->configGroup = $configGroup;
     }
 
     /**
      * Generate an image for the given prompt using the configured AI provider
      *
-     * Returns file data compatible with the Magento product gallery upload format.
+     * Returns file data in the format expected by the injected storage's target form
+     * (product gallery or category image uploader).
      *
      * @param string $prompt
      * @return array{file: string, url: string, name: string, size: int, type: string}
@@ -115,11 +124,11 @@ class ImageGeneration
 
         // quality is the biggest speed lever: 'low' generates several times faster than 'high'.
         $payload = $this->json->serialize([
-            'model'              => $this->helper->getImageModel(),
+            'model'              => $this->helper->getImageModel($this->configGroup),
             'prompt'             => $prompt,
             'n'                  => 1,
-            'size'               => $this->helper->getImageSize(),
-            'quality'            => $this->helper->getImageQuality(),
+            'size'               => $this->helper->getImageSize($this->configGroup),
+            'quality'            => $this->helper->getImageQuality($this->configGroup),
             'output_format'      => 'jpeg',
             'output_compression' => self::OPENAI_JPEG_QUALITY,
         ]);
@@ -192,7 +201,7 @@ class ImageGeneration
             ],
         ]);
 
-        $model = $this->helper->getGeminiImageModel();
+        $model = $this->helper->getGeminiImageModel($this->configGroup);
         $url = $this->helper->getGeminiBaseUrl() . '/v1beta/models/' . $model . ':generateContent';
         $this->curl->post($url, $payload);
 

@@ -43,13 +43,16 @@ class Data extends AbstractHelper
     public const XML_PATH_DESCRIPTION_MAX_TOKENS = 'mageai/product_description/description_max_tokens';
     public const XML_PATH_SHORT_SHORT_DESCRIPTION_PROMPT = 'mageai/product_description/short_description_prompt';
     public const XML_PATH_SHORT_DESCRIPTION_MAX_TOKENS = 'mageai/product_description/short_description_max_tokens';
-    public const XML_PATH_IMAGE_DEFAULT_PROMPT = 'mageai/image_generation/default_prompt';
-    public const XML_PATH_IMAGE_MODIFY_DEFAULT_PROMPT = 'mageai/image_generation/modify_default_prompt';
     public const XML_PATH_IMAGE_ATTRIBUTE = 'mageai/image_generation/attribute';
-    public const XML_PATH_IMAGE_MODEL = 'mageai/image_generation/openai_image_model';
-    public const XML_PATH_GPT_IMAGE_SIZE = 'mageai/image_generation/gpt_image_size';
-    public const XML_PATH_GPT_IMAGE_QUALITY = 'mageai/image_generation/gpt_image_quality';
-    public const XML_PATH_GEMINI_IMAGE_MODEL = 'mageai/image_generation/gemini_image_model';
+
+    /**
+     * Config groups holding the image generation settings
+     *
+     * Products and categories have an identical field set (prompts, models, size, quality) under
+     * their own group, so every image getter takes the group it should read from.
+     */
+    public const GROUP_PRODUCT_IMAGE = 'image_generation';
+    public const GROUP_CATEGORY_IMAGE = 'category_image_generation';
 
     /**
      * Get config value
@@ -240,27 +243,9 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get default image generation prompt template
-     *
-     * @return string
-     */
-    public function getImageDefaultPrompt(): string
-    {
-        return (string) ($this->getConfig(self::XML_PATH_IMAGE_DEFAULT_PROMPT) ?: '');
-    }
-
-    /**
-     * Get default image modification prompt template
-     *
-     * @return string
-     */
-    public function getImageModifyDefaultPrompt(): string
-    {
-        return (string) ($this->getConfig(self::XML_PATH_IMAGE_MODIFY_DEFAULT_PROMPT) ?: '');
-    }
-
-    /**
      * Get selected product attribute codes for image generation as an array
+     *
+     * Product images only — category prompts have no attribute selection.
      *
      * @return string[]
      */
@@ -271,23 +256,47 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get OpenAI image generation model (dall-e-3 / dall-e-2)
+     * Get default image generation prompt template
      *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
      * @return string
      */
-    public function getImageModel(): string
+    public function getImageDefaultPrompt(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getConfig(self::XML_PATH_IMAGE_MODEL) ?: 'gpt-image-2');
+        return (string) ($this->getImageConfig($group, 'default_prompt') ?: '');
+    }
+
+    /**
+     * Get default image modification prompt template
+     *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
+     * @return string
+     */
+    public function getImageModifyDefaultPrompt(string $group = self::GROUP_PRODUCT_IMAGE): string
+    {
+        return (string) ($this->getImageConfig($group, 'modify_default_prompt') ?: '');
+    }
+
+    /**
+     * Get OpenAI image generation model
+     *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
+     * @return string
+     */
+    public function getImageModel(string $group = self::GROUP_PRODUCT_IMAGE): string
+    {
+        return (string) ($this->getImageConfig($group, 'openai_image_model') ?: 'gpt-image-2');
     }
 
     /**
      * Get the configured image size (all GPT Image models share the same size set)
      *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
      * @return string
      */
-    public function getImageSize(): string
+    public function getImageSize(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getConfig(self::XML_PATH_GPT_IMAGE_SIZE) ?: '1024x1024');
+        return (string) ($this->getImageConfig($group, 'gpt_image_size') ?: '1024x1024');
     }
 
     /**
@@ -295,20 +304,34 @@ class Data extends AbstractHelper
      *
      * Lower quality generates significantly faster.
      *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
      * @return string
      */
-    public function getImageQuality(): string
+    public function getImageQuality(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getConfig(self::XML_PATH_GPT_IMAGE_QUALITY) ?: 'medium');
+        return (string) ($this->getImageConfig($group, 'gpt_image_quality') ?: 'medium');
     }
 
     /**
-     * Get Gemini Imagen model
+     * Get Gemini image model
      *
+     * @param string $group  GROUP_PRODUCT_IMAGE or GROUP_CATEGORY_IMAGE
      * @return string
      */
-    public function getGeminiImageModel(): string
+    public function getGeminiImageModel(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getConfig(self::XML_PATH_GEMINI_IMAGE_MODEL) ?: 'gemini-2.5-flash-image');
+        return (string) ($this->getImageConfig($group, 'gemini_image_model') ?: 'gemini-2.5-flash-image');
+    }
+
+    /**
+     * Read a field from one of the image generation config groups
+     *
+     * @param string $group
+     * @param string $field
+     * @return mixed
+     */
+    private function getImageConfig(string $group, string $field)
+    {
+        return $this->getConfig('mageai/' . $group . '/' . $field);
     }
 }

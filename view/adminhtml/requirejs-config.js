@@ -3,7 +3,9 @@ var config = {
         '*': {
             'mageAiGenerate': 'Mageprince_MageAI/js/generate',
             'mageAiImageGenerate': 'Mageprince_MageAI/js/image-generate',
-            'mageAiImageModify': 'Mageprince_MageAI/js/image-modify'
+            'mageAiImageModify': 'Mageprince_MageAI/js/image-modify',
+            'mageAiCategoryImageGenerate': 'Mageprince_MageAI/js/category-image-generate',
+            'mageAiCategoryImageModify': 'Mageprince_MageAI/js/category-image-modify'
         }
     },
     config: {

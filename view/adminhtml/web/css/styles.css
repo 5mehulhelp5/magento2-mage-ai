@@ -131,3 +131,30 @@
     margin-top: 10px;
 }
 
+.file-uploader-area.mp-mageai-has-actions {
+    white-space: nowrap;
+}
+
+.file-uploader-area.mp-mageai-has-actions .image-upload-requirements {
+    white-space: normal;
+}
+
+.mp-mageai-image-actions {
+    display: inline-flex;
+    gap: 10px;
+    margin-left: 10px;
+    vertical-align: top;
+}
+
+.mp-mageai-image-actions .mp-generate-image-btn,
+.mp-mageai-image-actions .mp-modify-image-btn {
+    margin-left: 0 !important;
+    white-space: nowrap;
+}
+
+.mp-mageai-image-modal #mp-category-image-prompt,
+.mp-mageai-modify-modal #mp-category-modify-prompt {
+    min-height: 90px;
+    width: 100%;
+}
+
