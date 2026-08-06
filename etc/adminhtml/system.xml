@@ -152,7 +152,7 @@
                 </field>
             </group>
             <group id="image_generation" translate="label" type="text" sortOrder="40" showInDefault="1">
-                <label>Image Generation Configuration</label>
+                <label>Product Image Generation Configuration</label>
                 <field id="default_prompt" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Default Image Prompt</label>
                     <comment><![CDATA[Used when no custom prompt is entered in the modal. Available variables: <code>{{ product.name }}</code> — product name, <code>{{ product.attributes }}</code> — selected attribute label/value pairs. Both variables also work in the modal's custom prompt.]]></comment>
@@ -186,6 +186,49 @@
                     <label>Image Quality</label>
                     <source_model>Mageprince\MageAI\Model\Config\Source\ImageQuality</source_model>
                     <comment>Lower quality generates much faster. Use Low for quick drafts, High for final product images.</comment>
+                    <depends>
+                        <field id="mageai/api/provider">openai</field>
+                    </depends>
+                </field>
+                <field id="gemini_image_model" translate="label" type="select" sortOrder="30" showInDefault="1" canRestore="1">
+                    <label>Gemini Image Model</label>
+                    <source_model>Mageprince\MageAI\Model\Config\Source\GeminiImageModel</source_model>
+                    <comment><![CDATA[Check <a href="https://ai.google.dev/gemini-api/docs/image-generation" target="_blank">Gemini Image Generation</a> for available models.]]></comment>
+                    <depends>
+                        <field id="mageai/api/provider">gemini</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="category_image_generation" translate="label" type="text" sortOrder="50" showInDefault="1">
+                <label>Category Image Generation Configuration</label>
+                <field id="default_prompt" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Default Category Image Prompt</label>
+                    <comment><![CDATA[Used when no custom prompt is entered in the modal. Available variables: <code>{{ category.name }}</code> — category name, <code>{{ category.description }}</code> — category description as plain text. Both variables also work in the modal's custom prompt.]]></comment>
+                </field>
+                <field id="modify_default_prompt" translate="label" type="textarea" sortOrder="12" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Default Category Image Modify Prompt</label>
+                    <comment><![CDATA[Used by "Edit Image with MageAI" when no custom prompt is entered. The current category image is sent to the AI together with this instruction. Available variables: <code>{{ category.name }}</code> — category name, <code>{{ category.description }}</code> — category description as plain text.]]></comment>
+                </field>
+                <field id="openai_image_model" translate="label" type="select" sortOrder="20" showInDefault="1" canRestore="1">
+                    <label>OpenAI Image Model</label>
+                    <source_model>Mageprince\MageAI\Model\Config\Source\OpenAIImageModel</source_model>
+                    <comment><![CDATA[Check <a href="https://platform.openai.com/docs/guides/image-generation" target="_blank">Image Generation Models</a> for details.]]></comment>
+                    <depends>
+                        <field id="mageai/api/provider">openai</field>
+                    </depends>
+                </field>
+                <field id="gpt_image_size" translate="label" type="select" sortOrder="22" showInDefault="1" canRestore="1">
+                    <label>Image Size</label>
+                    <source_model>Mageprince\MageAI\Model\Config\Source\GptImageSize</source_model>
+                    <comment>Landscape (1536×1024) is recommended for category banners. Smaller sizes generate faster.</comment>
+                    <depends>
+                        <field id="mageai/api/provider">openai</field>
+                    </depends>
+                </field>
+                <field id="gpt_image_quality" translate="label" type="select" sortOrder="24" showInDefault="1" canRestore="1">
+                    <label>Image Quality</label>
+                    <source_model>Mageprince\MageAI\Model\Config\Source\ImageQuality</source_model>
+                    <comment>Lower quality generates much faster. Use Low for quick drafts, High for final category banners.</comment>
                     <depends>
                         <field id="mageai/api/provider">openai</field>
                     </depends>

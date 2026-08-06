@@ -7,6 +7,7 @@ This Magento 2 extension integrates **OpenAI (GPT)**, **Anthropic (Claude)**, an
 - **Multi-provider AI support** — switch between OpenAI (GPT), Anthropic (Claude), and Google Gemini from a single config screen
 - **AI product image generation** — generate a product image from a prompt (or a configurable default) right from the Images And Videos section, added straight to the gallery (OpenAI & Gemini)
 - **AI product image editing** — pick any existing product image, describe the change in a prompt (or use a configurable default), preview the edited result side-by-side with the original, and replace it in the gallery on confirm (OpenAI & Gemini)
+- **AI category image generation & editing** — the same two buttons on the category page: generate a category **banner** from a prompt (wide landscape framing with space for overlay text by default), or edit the current image and preview the result before replacing it (OpenAI & Gemini)
 - **Global baseline prompt** — set brand voice, language, compliance and SEO rules once and have them automatically applied to every text generation (full, short, and custom prompts) across all providers
 - Generate product descriptions using a **custom free-form prompt** for full control and flexibility
 - Customize prompt templates using `{{ product.name }}` and `{{ product.attributes }}` variables
@@ -34,7 +35,7 @@ This Magento 2 extension integrates **OpenAI (GPT)**, **Anthropic (Claude)**, an
 2. Choose your preferred AI **Provider** (Gemini, OpenAI, or Anthropic)
 3. Enter the **API key** for the selected provider
 4. Select the **model** and tune **max tokens** / **temperature** as needed
-5. Configure the **image generation** and **image editing** prompts/models if you plan to use the image features
+5. If you plan to use the image features, configure **Product Image Generation Configuration** and **Category Image Generation Configuration** — each group has its own prompts, image model, size and quality, so category banners can differ from product shots (category images default to a landscape banner)
 6. Save the configuration
 
 > All features below work on both **new (unsaved)** and **existing** products. Remember to save the product to persist generated content and images.
@@ -54,10 +55,20 @@ Click **"Generate Image with MageAI"** next to the **Add Video** button in the I
 ### Edit Product Image
 Click **"Edit Image with MageAI"** (next to the generate button) to open a popup listing the product's current images. Click **"Edit with MageAI"** under any image, describe the change in a prompt (or leave it empty to use the default configured modify prompt), and the AI returns an edited version shown side-by-side with the original. Click **Confirm & Replace** to swap the original image with the edited one — its base/role, position, and visibility are preserved, and the change is saved with the product. Available with the **OpenAI** and **Gemini** providers.
 
+### Generate Category Image
+Open any category and click **"Generate Image with MageAI"** next to the **Upload** / **Select from Gallery** buttons of the **Category Image** field. Enter a prompt (or leave it empty to use the default configured category prompt, which produces a wide banner-style image) and the generated image is set as the category image straight away. Save the category to persist it. Available with the **OpenAI** and **Gemini** providers.
+
+### Edit Category Image
+Click **"Edit Image with MageAI"** next to the generate button, describe the change in a prompt (or leave it empty to use the default configured category modify prompt), and the AI returns an edited version shown side-by-side with the original. Click **Confirm & Replace** to make it the category image. Available with the **OpenAI** and **Gemini** providers.
+
 ### Prompt Templates
-Description and image prompts support two variables:
+Product description and product image prompts support two variables:
 - `{{ product.name }}` — the product's name
 - `{{ product.attributes }}` — a comma-separated `Label: Value` string from the attributes you selected in config (descriptions and image prompts have independent attribute selections)
+
+Category image prompts support:
+- `{{ category.name }}` — the category's name
+- `{{ category.description }}` — the category description as plain text (tags stripped, shortened)
 
 ## How to Install
 ### Install via Composer

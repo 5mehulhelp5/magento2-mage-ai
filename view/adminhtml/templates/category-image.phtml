@@ -1,0 +1,111 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Mageprince\MageAI\Helper\Data $helper
+ * @var \Magento\Framework\Escaper $escaper
+ */
+// phpcs:disable Generic.Files.LineLength
+// phpcs:disable Magento2.Templates.ThisInTemplate
+$helper = $this->helper(\Mageprince\MageAI\Helper\Data::class);
+$isEnabled = $helper->isEnabled();
+?>
+<?php if ($isEnabled): ?>
+    <?php
+    $generateImageAjaxUrl = $block->getUrl('mp_mageai/category/generateimage');
+    $modifyImageAjaxUrl = $block->getUrl('mp_mageai/category/modifyimage');
+    ?>
+
+    <!-- Category image generation modal -->
+    <div id="mp-category-image-generate-modal" style="display:none;">
+        <div class="generate-modal-body-content">
+            <fieldset class="admin__fieldset">
+                <div class="admin__field admin__field-wide">
+                    <div class="admin__field-control">
+                        <textarea
+                            rows="4"
+                            id="mp-category-image-prompt"
+                            class="admin__control-text"
+                            placeholder="<?= $escaper->escapeHtmlAttr(__('E.g. A wide lifestyle banner for a summer footwear category, bright natural light, space for overlay text')) ?>"
+                            name="image_prompt"></textarea>
+                        <div class="admin__field-note mpai-modal-note">
+                            <span>
+                                <?= $escaper->escapeHtml(__('Leave empty to use the default category image prompt configured in Stores > Configuration > Mageprince > MageAI > Category Image Generation.')) ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <!-- Category image modification modal -->
+    <div id="mp-category-image-modify-modal" style="display:none;">
+        <div class="generate-modal-body-content mp-modify-wrap">
+            <!-- View 1: enter a modification prompt for the current category image -->
+            <div class="mp-modify-view mp-modify-view-prompt">
+                <div class="mp-modify-selected-preview">
+                    <img data-role="modify-selected-img" src="" alt=""/>
+                </div>
+                <fieldset class="admin__fieldset">
+                    <div class="admin__field admin__field-wide">
+                        <div class="admin__field-control">
+                            <textarea
+                                rows="4"
+                                id="mp-category-modify-prompt"
+                                class="admin__control-text"
+                                placeholder="<?= $escaper->escapeHtmlAttr(__('E.g. Brighten the image and replace the background with a soft gradient, keep the subject unchanged')) ?>"
+                                name="modify_prompt"></textarea>
+                            <div class="admin__field-note mpai-modal-note">
+                                <span>
+                                    <?= $escaper->escapeHtml(__('Leave empty to use the default category modify prompt configured in Stores > Configuration > Mageprince > MageAI > Category Image Generation.')) ?>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="mp-modify-actions">
+                    <button type="button" class="action-primary" data-role="modify-submit">
+                        <span><?= $escaper->escapeHtml(__('Edit Image')) ?></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- View 2: compare and confirm -->
+            <div class="mp-modify-view mp-modify-view-result" style="display:none;">
+                <div class="mp-modify-compare">
+                    <div class="mp-modify-compare-col">
+                        <span class="mp-modify-compare-label"><?= $escaper->escapeHtml(__('Original')) ?></span>
+                        <img data-role="modify-original-img" src="" alt=""/>
+                    </div>
+                    <div class="mp-modify-compare-col">
+                        <span class="mp-modify-compare-label"><?= $escaper->escapeHtml(__('Modified')) ?></span>
+                        <img data-role="modify-result-img" src="" alt=""/>
+                    </div>
+                </div>
+                <div class="mp-modify-actions">
+                    <button type="button" class="action-secondary" data-role="modify-regenerate">
+                        <span><?= $escaper->escapeHtml(__('Try Again')) ?></span>
+                    </button>
+                    <button type="button" class="action-primary" data-role="modify-confirm">
+                        <span><?= $escaper->escapeHtml(__('Confirm & Replace')) ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.mageAICategoryGenerateImageUrl = '<?= $escaper->escapeJs($generateImageAjaxUrl) ?>';
+        window.mageAICategoryModifyImageUrl = '<?= $escaper->escapeJs($modifyImageAjaxUrl) ?>';
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "#mp-category-image-generate-modal": {
+                "mageAiCategoryImageGenerate": {}
+            },
+            "#mp-category-image-modify-modal": {
+                "mageAiCategoryImageModify": {}
+            }
+        }
+    </script>
+<?php endif ?>

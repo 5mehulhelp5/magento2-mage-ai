@@ -77,6 +77,25 @@ Follow these guidelines:
                 <gpt_image_quality>medium</gpt_image_quality>
                 <gemini_image_model>gemini-2.5-flash-image</gemini_image_model>
             </image_generation>
+            <category_image_generation>
+                <default_prompt><![CDATA[A wide banner image for the "{{ category.name }}" category of an online store, designed to sit full width across the top of a category page.
+Follow these guidelines:
+- Wide cinematic landscape composition, framed as a website hero banner.
+- Show a lifestyle scene representing the category, not an isolated single product on a plain background.
+- Place the subject off-centre and keep generous clean empty space on one side for overlay text.
+- Bright, even, natural lighting and a modern, premium e-commerce look.
+- No text, no letters, no logos, no watermark, no borders, no collage or split panels.]]></default_prompt>
+                <modify_default_prompt><![CDATA[Rework this image into a wide banner for the "{{ category.name }}" category of an online store, keeping the main subject recognisable.
+Follow these guidelines:
+- Extend the scene into a wide cinematic landscape composition suitable for a full width category banner.
+- Keep generous clean empty space on one side for overlay text.
+- Brighter, even lighting and a modern, premium e-commerce look.
+- No text, no letters, no logos, no watermark, no borders.]]></modify_default_prompt>
+                <openai_image_model>gpt-image-2</openai_image_model>
+                <gpt_image_size>1536x1024</gpt_image_size>
+                <gpt_image_quality>medium</gpt_image_quality>
+                <gemini_image_model>gemini-2.5-flash-image</gemini_image_model>
+            </category_image_generation>
         </mageai>
     </default>
 </config>

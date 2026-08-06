@@ -23,4 +23,33 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Framework\Data\Form\Element\Editor" type="Mageprince\MageAI\Data\Form\Element\Editor"/>
+    <type name="Mageprince\MageAI\Model\Query\CategoryImageStorage">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+    <virtualType name="Mageprince\MageAI\Model\Query\CategoryImageGeneration"
+                 type="Mageprince\MageAI\Model\Query\ImageGeneration">
+        <arguments>
+            <argument name="imageStorage" xsi:type="object">Mageprince\MageAI\Model\Query\CategoryImageStorage</argument>
+            <argument name="configGroup" xsi:type="const">Mageprince\MageAI\Helper\Data::GROUP_CATEGORY_IMAGE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mageprince\MageAI\Model\Query\CategoryImageModification"
+                 type="Mageprince\MageAI\Model\Query\ImageModification">
+        <arguments>
+            <argument name="imageStorage" xsi:type="object">Mageprince\MageAI\Model\Query\CategoryImageStorage</argument>
+            <argument name="configGroup" xsi:type="const">Mageprince\MageAI\Helper\Data::GROUP_CATEGORY_IMAGE</argument>
+        </arguments>
+    </virtualType>
+    <type name="Mageprince\MageAI\Controller\Adminhtml\Category\GenerateImage">
+        <arguments>
+            <argument name="imageGeneration" xsi:type="object">Mageprince\MageAI\Model\Query\CategoryImageGeneration</argument>
+        </arguments>
+    </type>
+    <type name="Mageprince\MageAI\Controller\Adminhtml\Category\ModifyImage">
+        <arguments>
+            <argument name="imageModification" xsi:type="object">Mageprince\MageAI\Model\Query\CategoryImageModification</argument>
+        </arguments>
+    </type>
 </config>

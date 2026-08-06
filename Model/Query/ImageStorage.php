@@ -25,31 +25,20 @@ namespace Mageprince\MageAI\Model\Query;
 use Magento\Catalog\Model\Product\Media\Config as MediaConfig;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
-use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
 
 /**
- * Shared helper for reading and writing product images to the media directory.
+ * Reads and writes product images to the media directory.
  *
  * Used by both image generation and image modification so the dispersion-path
  * persistence logic lives in a single place.
  */
-class ImageStorage
+class ImageStorage extends AbstractImageStorage
 {
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
     /**
      * @var MediaConfig
      */
     protected $mediaConfig;
-
-    /**
-     * @var CurlFactory
-     */
-    protected $curlFactory;
 
     /**
      * @param Filesystem $filesystem
@@ -61,9 +50,8 @@ class ImageStorage
         MediaConfig $mediaConfig,
         CurlFactory $curlFactory
     ) {
-        $this->filesystem = $filesystem;
         $this->mediaConfig = $mediaConfig;
-        $this->curlFactory = $curlFactory;
+        parent::__construct($filesystem, $curlFactory);
     }
 
     /**
@@ -95,7 +83,7 @@ class ImageStorage
 
             // Save under catalog/product/tmp/m/a/ so Magento moves it to the permanent
             // location (catalog/product/m/a/) when the product is saved.
-            $tmpBase = $this->mediaConfig->getBaseTmpMediaPath(); // catalog/product/tmp
+            $tmpBase = $this->getTempBasePath(); // catalog/product/tmp
             $mediaDirectory->create($tmpBase . $dispersionPath);
             $mediaDirectory->writeFile($tmpBase . $fileRelativeToTmp, $imageData);
         } catch (\Exception $e) {
@@ -154,111 +142,16 @@ class ImageStorage
             throw new QueryException(__('The original product image is empty or unreadable.'));
         }
 
-        $dotPos = strrpos($relative, '.');
-        $ext = $dotPos !== false ? strtolower(substr($relative, $dotPos + 1)) : '';
-        if ($ext === '') {
-            $ext = 'jpg';
-        }
-        $mimeType = $this->resolveMimeType($ext);
+        $ext = $this->resolveExtension($relative);
 
-        return ['data' => $data, 'mimeType' => $mimeType, 'ext' => $ext];
+        return ['data' => $data, 'mimeType' => $this->resolveMimeType($ext), 'ext' => $ext];
     }
 
     /**
-     * Write raw image bytes to a throwaway file and return its absolute path.
-     *
-     * Used to build a multipart upload (CURLFile) for APIs that require a real file handle,
-     * such as the OpenAI image edits endpoint. The caller is responsible for removing the file
-     * afterwards via removeTempFile().
-     *
-     * @param string $imageData
-     * @param string $ext
-     * @return array{path: string, absolutePath: string}
-     * @throws QueryException
+     * @inheritDoc
      */
-    public function writeTempFile(string $imageData, string $ext): array
+    protected function getTempBasePath(): string
     {
-        $relative = 'mageai_src_' . uniqid('', true) . '.' . $ext;
-        $path = $this->mediaConfig->getBaseTmpMediaPath() . '/' . $relative;
-
-        try {
-            $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-            $mediaDirectory->writeFile($path, $imageData);
-            $absolutePath = $mediaDirectory->getAbsolutePath($path);
-        } catch (\Exception $e) {
-            throw new QueryException(__('Failed to prepare the source image for modification: %1', $e->getMessage()));
-        }
-
-        return ['path' => $path, 'absolutePath' => $absolutePath];
-    }
-
-    /**
-     * Remove a temporary file previously created via writeTempFile()
-     *
-     * @param string $path Relative-to-media path
-     * @return void
-     */
-    public function removeTempFile(string $path): void
-    {
-        try {
-            $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-            if ($mediaDirectory->isExist($path)) {
-                $mediaDirectory->delete($path);
-            }
-        } catch (\Exception $e) {
-            // Best-effort cleanup; ignore failures so a leftover temp file never breaks the request
-            return;
-        }
-    }
-
-    /**
-     * Download image binary from a URL using a fresh Curl instance
-     *
-     * A new instance is used so any API auth headers from the calling request do not leak
-     * into this download.
-     *
-     * @param string $url
-     * @return string
-     * @throws QueryException
-     */
-    public function download(string $url): string
-    {
-        /** @var Curl $curl */
-        $curl = $this->curlFactory->create();
-        $curl->setTimeout(60);
-        $curl->setOption(CURLOPT_FOLLOWLOCATION, true);
-
-        try {
-            $curl->get($url);
-        } catch (\Exception $e) {
-            throw new QueryException(__('Failed to download image: %1', $e->getMessage()));
-        }
-
-        $data = $curl->getBody();
-        if ($curl->getStatus() >= 400 || $data === '') {
-            throw new QueryException(__('Failed to download image (HTTP %1).', $curl->getStatus()));
-        }
-
-        return $data;
-    }
-
-    /**
-     * Map a file extension to an image mime type
-     *
-     * @param string $ext
-     * @return string
-     */
-    private function resolveMimeType(string $ext): string
-    {
-        switch ($ext) {
-            case 'png':
-                return 'image/png';
-            case 'webp':
-                return 'image/webp';
-            case 'gif':
-                return 'image/gif';
-            default:
-                return 'image/jpeg';
-        }
+        return $this->mediaConfig->getBaseTmpMediaPath();
     }
 }

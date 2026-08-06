@@ -28,7 +28,7 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Mageprince\MageAI\Helper\Data as HelperData;
 
 /**
- * Modifies an existing product image from a text prompt using the configured AI provider.
+ * Modifies an existing product or category image from a text prompt using the configured AI provider.
  *
  * OpenAI uses the image-edits endpoint (multipart upload of the original image); Gemini sends the
  * original image inline alongside the prompt to generateContent. Anthropic is not supported.
@@ -51,7 +51,7 @@ class ImageModification
     protected $helper;
 
     /**
-     * @var ImageStorage
+     * @var ImageStorageInterface
      */
     protected $imageStorage;
 
@@ -61,30 +61,39 @@ class ImageModification
     protected $curlFactory;
 
     /**
+     * @var string
+     */
+    protected $configGroup;
+
+    /**
      * @param Json $json
      * @param HelperData $helper
-     * @param ImageStorage $imageStorage
+     * @param ImageStorageInterface $imageStorage
      * @param CurlFactory $curlFactory
+     * @param string $configGroup Image settings group to read (product by default)
      */
     public function __construct(
         Json $json,
         HelperData $helper,
-        ImageStorage $imageStorage,
-        CurlFactory $curlFactory
+        ImageStorageInterface $imageStorage,
+        CurlFactory $curlFactory,
+        string $configGroup = HelperData::GROUP_PRODUCT_IMAGE
     ) {
         $this->json = $json;
         $this->helper = $helper;
         $this->imageStorage = $imageStorage;
         $this->curlFactory = $curlFactory;
+        $this->configGroup = $configGroup;
     }
 
     /**
-     * Modify an existing product image using the configured AI provider.
+     * Modify an existing image using the configured AI provider.
      *
-     * Returns file data compatible with the Magento product gallery upload format.
+     * Returns file data in the format expected by the injected storage's target form
+     * (product gallery or category image uploader).
      *
      * @param string $prompt
-     * @param string $sourceFile Gallery imageData.file value of the image to modify
+     * @param string $sourceFile Reference to the image to modify, as understood by the storage
      * @return array{file: string, url: string, name: string, size: int, type: string}
      * @throws QueryException
      */
@@ -124,11 +133,11 @@ class ImageModification
 
         try {
             $fields = [
-                'model'              => $this->helper->getImageModel(),
+                'model'              => $this->helper->getImageModel($this->configGroup),
                 'prompt'             => $prompt,
                 'n'                  => '1',
-                'size'               => $this->helper->getImageSize(),
-                'quality'            => $this->helper->getImageQuality(),
+                'size'               => $this->helper->getImageSize($this->configGroup),
+                'quality'            => $this->helper->getImageQuality($this->configGroup),
                 'output_format'      => 'jpeg',
                 'output_compression' => (string) self::OPENAI_JPEG_QUALITY,
                 // phpcs:ignore Magento2.Functions.DiscouragedFunction
@@ -217,7 +226,7 @@ class ImageModification
             ],
         ]);
 
-        $model = $this->helper->getGeminiImageModel();
+        $model = $this->helper->getGeminiImageModel($this->configGroup);
         $url = $this->helper->getGeminiBaseUrl() . '/v1beta/models/' . $model . ':generateContent';
         $curl->post($url, $payload);
 
