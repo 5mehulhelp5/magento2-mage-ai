@@ -33,10 +33,9 @@ class OpenAIImageModel implements OptionSourceInterface
     public function toOptionArray(): array
     {
         return [
-            ['value' => 'gpt-image-1',      'label' => __('GPT Image 1')],
-            ['value' => 'gpt-image-1.5',    'label' => __('GPT Image 1.5')],
-            ['value' => 'gpt-image-2',      'label' => __('GPT Image 2')],
-            ['value' => 'gpt-image-1-mini', 'label' => __('GPT Image 1 Mini')],
+            ['value' => 'gpt-image-2.5-sunburst', 'label' => __('GPT Image 2.5 Sunburst')],
+            ['value' => 'gpt-image-2.5-flare',    'label' => __('GPT Image 2.5 Flare')],
+            ['value' => 'gpt-image-2',            'label' => __('GPT Image 2')],
         ];
     }
 }

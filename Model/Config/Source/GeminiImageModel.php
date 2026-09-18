@@ -33,9 +33,10 @@ class GeminiImageModel implements OptionSourceInterface
     public function toOptionArray(): array
     {
         return [
-            ['value' => 'gemini-2.5-flash-image', 'label' => __('Gemini 2.5 Flash Image')],
-            ['value' => 'gemini-3.1-flash-image', 'label' => __('Gemini 3.1 Flash Image')],
-            ['value' => 'gemini-3-pro-image',     'label' => __('Gemini 3 Pro Image')],
+            ['value' => 'gemini-3.1-flash-image',      'label' => __('Gemini 3.1 Flash Image (Nano Banana 2)')],
+            ['value' => 'gemini-3.1-flash-lite-image', 'label' => __('Gemini 3.1 Flash Lite Image (Nano Banana 2 Lite)')],
+            ['value' => 'gemini-3-pro-image',          'label' => __('Gemini 3 Pro Image (Nano Banana Pro)')],
+            ['value' => 'gemini-2.5-flash-image',      'label' => __('Gemini 2.5 Flash Image (Nano Banana)')],
         ];
     }
 }

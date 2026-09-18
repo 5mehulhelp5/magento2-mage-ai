@@ -35,7 +35,9 @@ class ImageQuality implements OptionSourceInterface
         return [
             ['value' => 'low',    'label' => __('Low (Fastest)')],
             ['value' => 'medium', 'label' => __('Medium (Balanced)')],
-            ['value' => 'high',   'label' => __('High (Best quality, slowest)')],
+            ['value' => 'high',   'label' => __('High (Best quality, slower)')],
+            ['value' => 'xhigh',  'label' => __('Extra High (GPT Image 2.5 only)')],
+            ['value' => 'max',    'label' => __('Max (GPT Image 2.5 only, slowest)')],
             ['value' => 'auto',   'label' => __('Auto (Model decides)')],
         ];
     }

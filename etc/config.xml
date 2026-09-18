@@ -31,13 +31,13 @@
                 <provider>gemini</provider>
                 <base_url>https://api.openai.com</base_url>
                 <api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <model>gpt-4o-mini</model>
+                <model>gpt-5.6-luna</model>
                 <anthropic_base_url>https://api.anthropic.com</anthropic_base_url>
                 <anthropic_api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <anthropic_model>claude-sonnet-4-6</anthropic_model>
+                <anthropic_model>claude-sonnet-5</anthropic_model>
                 <gemini_base_url>https://generativelanguage.googleapis.com</gemini_base_url>
                 <gemini_api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <gemini_model>gemini-2.5-flash</gemini_model>
+                <gemini_model>gemini-3.8-flash</gemini_model>
             </api>
             <product_description>
                 <temperature>0.5</temperature>
@@ -72,10 +72,10 @@ Follow these guidelines:
                 <default_prompt><![CDATA[A professional product photo of {{ product.name }}. Clean white background, studio lighting, e-commerce style, high quality, no text, no watermark.]]></default_prompt>
                 <modify_default_prompt><![CDATA[Enhance this product photo: clean white background, professional studio lighting, e-commerce style, high quality, no text, no watermark. Keep the product itself unchanged.]]></modify_default_prompt>
                 <attribute>color</attribute>
-                <openai_image_model>gpt-image-2</openai_image_model>
+                <openai_image_model>gpt-image-2.5-flare</openai_image_model>
                 <gpt_image_size>1024x1024</gpt_image_size>
                 <gpt_image_quality>medium</gpt_image_quality>
-                <gemini_image_model>gemini-2.5-flash-image</gemini_image_model>
+                <gemini_image_model>gemini-3.1-flash-image</gemini_image_model>
             </image_generation>
             <category_image_generation>
                 <default_prompt><![CDATA[A wide banner image for the "{{ category.name }}" category of an online store, designed to sit full width across the top of a category page.
@@ -91,10 +91,10 @@ Follow these guidelines:
 - Keep generous clean empty space on one side for overlay text.
 - Brighter, even lighting and a modern, premium e-commerce look.
 - No text, no letters, no logos, no watermark, no borders.]]></modify_default_prompt>
-                <openai_image_model>gpt-image-2</openai_image_model>
+                <openai_image_model>gpt-image-2.5-flare</openai_image_model>
                 <gpt_image_size>1536x1024</gpt_image_size>
                 <gpt_image_quality>medium</gpt_image_quality>
-                <gemini_image_model>gemini-2.5-flash-image</gemini_image_model>
+                <gemini_image_model>gemini-3.1-flash-image</gemini_image_model>
             </category_image_generation>
         </mageai>
     </default>
