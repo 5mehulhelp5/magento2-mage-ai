@@ -14,9 +14,9 @@ This Magento 2 extension integrates **OpenAI (GPT)**, **Anthropic (Claude)**, an
 - Select **multiple product attributes** to base generation on (name, material, features, etc.)
 - Configure **max tokens** and **temperature** separately for full and short descriptions
 - Works on both **existing** and **unsaved (new) products**
-- Supports OpenAI chat and completion endpoints (`gpt-4o`, `gpt-4-turbo`, `gpt-4o-mini`, `gpt-3.5-turbo`, etc.)
-- Supports Anthropic Messages API (`claude-opus-4-5`, `claude-sonnet-4-6`, `claude-haiku-4-5`, etc.)
-- Supports Google Gemini API (`gemini-2.5-flash`, `gemini-2.5-pro`, etc.)
+- Supports OpenAI chat and completion endpoints (`gpt-6-astra`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, etc.)
+- Supports Anthropic Messages API (`claude-fable-5-1`, `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5`, etc.)
+- Supports Google Gemini API (`gemini-3.8-flash`, `gemini-3.5-flash`, `gemini-3.5-flash-lite`, etc.)
 - Clean, valid HTML output ready to use in the WYSIWYG editor
 - Compatible with Page Builder
 
@@ -24,9 +24,9 @@ This Magento 2 extension integrates **OpenAI (GPT)**, **Anthropic (Claude)**, an
 
 | Provider | Models |
 |---|---|
-| **Google Gemini** *(default)* | `gemini-2.5-flash`, `gemini-2.5-pro`, `gemini-1.5-flash`, `gemini-1.5-pro` |
-| **OpenAI (ChatGPT)** | `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `gpt-4`, `gpt-3.5-turbo` |
-| **Anthropic (Claude)** | `claude-opus-4-5`, `claude-sonnet-4-6`, `claude-haiku-4-5` |
+| **Google Gemini** *(default)* | `gemini-3.8-flash`, `gemini-3.7-flash`, `gemini-3.6-flash`, `gemini-3.5-flash`, `gemini-3.5-flash-lite`, `gemini-3.1-flash-lite`, `gemini-2.5-pro`, `gemini-2.5-flash`, `gemini-2.5-flash-lite` |
+| **OpenAI (ChatGPT)** | `gpt-6-astra`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-4o`, `gpt-4o-mini` |
+| **Anthropic (Claude)** | `claude-fable-5-1`, `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5`, plus the 4.x legacy models |
 
 ## Usage
 

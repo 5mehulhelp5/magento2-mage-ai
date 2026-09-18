@@ -285,7 +285,7 @@ class Data extends AbstractHelper
      */
     public function getImageModel(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getImageConfig($group, 'openai_image_model') ?: 'gpt-image-2');
+        return (string) ($this->getImageConfig($group, 'openai_image_model') ?: 'gpt-image-2.5-flare');
     }
 
     /**
@@ -320,7 +320,7 @@ class Data extends AbstractHelper
      */
     public function getGeminiImageModel(string $group = self::GROUP_PRODUCT_IMAGE): string
     {
-        return (string) ($this->getImageConfig($group, 'gemini_image_model') ?: 'gemini-2.5-flash-image');
+        return (string) ($this->getImageConfig($group, 'gemini_image_model') ?: 'gemini-3.1-flash-image');
     }
 
     /**

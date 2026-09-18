@@ -33,13 +33,15 @@ class GeminiModel implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
+            ['value' => 'gemini-3.8-flash', 'label' => 'gemini-3.8-flash'],
+            ['value' => 'gemini-3.7-flash', 'label' => 'gemini-3.7-flash'],
+            ['value' => 'gemini-3.6-flash', 'label' => 'gemini-3.6-flash'],
+            ['value' => 'gemini-3.5-flash', 'label' => 'gemini-3.5-flash'],
+            ['value' => 'gemini-3.5-flash-lite', 'label' => 'gemini-3.5-flash-lite'],
+            ['value' => 'gemini-3.1-flash-lite', 'label' => 'gemini-3.1-flash-lite'],
             ['value' => 'gemini-2.5-pro', 'label' => 'gemini-2.5-pro'],
             ['value' => 'gemini-2.5-flash', 'label' => 'gemini-2.5-flash'],
-            ['value' => 'gemini-2.0-flash', 'label' => 'gemini-2.0-flash'],
-            ['value' => 'gemini-2.0-flash-lite', 'label' => 'gemini-2.0-flash-lite'],
-            ['value' => 'gemini-1.5-pro', 'label' => 'gemini-1.5-pro'],
-            ['value' => 'gemini-1.5-flash', 'label' => 'gemini-1.5-flash'],
-            ['value' => 'gemini-1.5-flash-8b', 'label' => 'gemini-1.5-flash-8b'],
+            ['value' => 'gemini-2.5-flash-lite', 'label' => 'gemini-2.5-flash-lite'],
         ];
     }
 }

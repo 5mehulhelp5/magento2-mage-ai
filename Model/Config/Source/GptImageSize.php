@@ -26,7 +26,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 class GptImageSize implements OptionSourceInterface
 {
     /**
-     * Sizes supported by the gpt-image-1 model
+     * Sizes supported by the GPT Image models
      *
      * @return array
      */

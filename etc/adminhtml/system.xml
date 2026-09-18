@@ -65,7 +65,7 @@
                 </field>
                 <field id="model" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Model</label>
-                    <comment><![CDATA[Check <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI Models</a> for details]]></comment>
+                    <comment><![CDATA[Check <a href="https://developers.openai.com/api/docs/models" target="_blank">OpenAI Models</a> for details]]></comment>
                     <source_model>Mageprince\MageAI\Model\Config\Source\AIModel</source_model>
                     <depends>
                         <field id="provider">openai</field>
@@ -89,7 +89,7 @@
                 </field>
                 <field id="anthropic_model" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Model</label>
-                    <comment><![CDATA[Check <a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Anthropic Models</a> for details]]></comment>
+                    <comment><![CDATA[Check <a href="https://platform.claude.com/docs/en/models/overview" target="_blank">Anthropic Models</a> for details]]></comment>
                     <source_model>Mageprince\MageAI\Model\Config\Source\AnthropicModel</source_model>
                     <depends>
                         <field id="provider">anthropic</field>
@@ -113,7 +113,7 @@
                 </field>
                 <field id="gemini_model" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Model</label>
-                    <comment><![CDATA[Check <a href="https://ai.google.dev/gemini-api/docs/models/gemini" target="_blank">Gemini Models</a> for details]]></comment>
+                    <comment><![CDATA[Check <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank">Gemini Models</a> for details]]></comment>
                     <source_model>Mageprince\MageAI\Model\Config\Source\GeminiModel</source_model>
                     <depends>
                         <field id="provider">gemini</field>
@@ -169,7 +169,7 @@
                 <field id="openai_image_model" translate="label" type="select" sortOrder="20" showInDefault="1" canRestore="1">
                     <label>OpenAI Image Model</label>
                     <source_model>Mageprince\MageAI\Model\Config\Source\OpenAIImageModel</source_model>
-                    <comment><![CDATA[Check <a href="https://platform.openai.com/docs/guides/image-generation" target="_blank">Image Generation Models</a> for details.]]></comment>
+                    <comment><![CDATA[Check <a href="https://developers.openai.com/api/docs/guides/image-generation" target="_blank">Image Generation Models</a> for details.]]></comment>
                     <depends>
                         <field id="mageai/api/provider">openai</field>
                     </depends>
@@ -185,7 +185,7 @@
                 <field id="gpt_image_quality" translate="label" type="select" sortOrder="24" showInDefault="1" canRestore="1">
                     <label>Image Quality</label>
                     <source_model>Mageprince\MageAI\Model\Config\Source\ImageQuality</source_model>
-                    <comment>Lower quality generates much faster. Use Low for quick drafts, High for final product images.</comment>
+                    <comment>Lower quality generates much faster. Use Low for quick drafts, High for final product images. Extra High and Max are only supported by the GPT Image 2.5 models.</comment>
                     <depends>
                         <field id="mageai/api/provider">openai</field>
                     </depends>
@@ -212,7 +212,7 @@
                 <field id="openai_image_model" translate="label" type="select" sortOrder="20" showInDefault="1" canRestore="1">
                     <label>OpenAI Image Model</label>
                     <source_model>Mageprince\MageAI\Model\Config\Source\OpenAIImageModel</source_model>
-                    <comment><![CDATA[Check <a href="https://platform.openai.com/docs/guides/image-generation" target="_blank">Image Generation Models</a> for details.]]></comment>
+                    <comment><![CDATA[Check <a href="https://developers.openai.com/api/docs/guides/image-generation" target="_blank">Image Generation Models</a> for details.]]></comment>
                     <depends>
                         <field id="mageai/api/provider">openai</field>
                     </depends>
@@ -228,7 +228,7 @@
                 <field id="gpt_image_quality" translate="label" type="select" sortOrder="24" showInDefault="1" canRestore="1">
                     <label>Image Quality</label>
                     <source_model>Mageprince\MageAI\Model\Config\Source\ImageQuality</source_model>
-                    <comment>Lower quality generates much faster. Use Low for quick drafts, High for final category banners.</comment>
+                    <comment>Lower quality generates much faster. Use Low for quick drafts, High for final category banners. Extra High and Max are only supported by the GPT Image 2.5 models.</comment>
                     <depends>
                         <field id="mageai/api/provider">openai</field>
                     </depends>
